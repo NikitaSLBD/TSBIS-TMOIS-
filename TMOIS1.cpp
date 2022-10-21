@@ -1,88 +1,92 @@
 ﻿#include <stdio.h>
 #include <vector>
+#include <windows.h>
+
 
 using namespace std;
 
 void main()
 {
-    unsigned int m_A, m_B, par;
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
 
-    printf("Enter m_A: ");
+
+    int m_A, m_B, par;
+
+    printf("Введите мощность множества А: ");
     scanf_s("%i", &m_A, "\n");
 
-    vector <unsigned int> A(m_A);
+    vector <int> A(m_A);
 
     for (int i = 0; i < m_A; i++)
     {
-        printf("%s %i %s", "Enter A[", i + 1, "]: ");
-        scanf_s("%ui", &A[i]);
+        printf("%s %i %s", "Введите ", i + 1, "элемент множества А: ");
+        scanf_s("%i", &A[i]);
     }
 
-    printf("Enter m_B: ");
+    printf("Введите мощность множества В: ");
     scanf_s("%i", &m_B, "\n");
 
-    vector <unsigned int> B(m_B);
+    vector <int> B(m_B);
 
     for (int j = 0; j < m_B; j++)
     {
-        printf("%s %i %s", "Enter B[", j + 1, "]: ");
-        scanf_s("%ui", &B[j]);
+        printf("%s %i %s", "Введите ", j + 1, "элемент множества В: ");
+        scanf_s("%i", &B[j]);
     }
 
-    printf("\nSet A:");
+    printf("\nМножество A:{");
 
     for (int i = 0; i < m_A; i++)
     {
         printf("%s %i", " ", A[i]);
     }
 
-    printf("\nSet B:");
+    printf(" }\nМножество B:{");
 
     for (int i = 0; i < m_B; i++)
     {
         printf("%s %i", " ", B[i]);
     }
 
-    vector <unsigned int> C(1);
+    vector <int> C(1);
 
 
-    printf("\n1) Unification\n");
-    printf("2) Decussation\n");
+    printf(" }\n1) Объединение\n");
+    printf("2) Пересечение\n");
+    printf("Выберите операцию: ");
 
-    scanf_s("%ui", &par);
+    scanf_s("%i", &par);
 
     switch (par)
     {
     case 1:
     {
-        if (m_A > m_B)
-        {
-            for (int i = 0; i < m_A; i++)
-            {
-                C.push_back(A[i]);
 
-                for (int j = 0; j < m_B; j++)
+        for (int i = 0; i < m_A; i++)
+        {
+            C.push_back(A[i]);
+        }
+
+        for (int i = 0; i < m_B; i++)
+        {
+            for (int j = 0; j < m_A; j++)
+            {
+                if (B[i] != A[j] && j == m_A - 1)
                 {
-                    if (B[j] != A[i])
-                        C.push_back(B[j]);
+                    C.push_back(B[i]);
+                    break;
+                }
+                else
+                {
+                    if (B[i] == A[j])
+                        break;
                 }
             }
         }
-        else
-        {
-            for (int i = 0; i < m_B; i++)
-            {
-                C.push_back(B[i]);
 
-                for (int j = 0; j < m_A; j++)
-                {
-                    if (A[j] != B[i])
-                        C.push_back(A[j]);
-                }
-            }
-        }
+        break;
     }
-
     case 2:
     {
 
@@ -102,12 +106,14 @@ void main()
     }
 
     }
-    printf("\nSet C:");
+    printf("\nМножество C:{");
 
     for (int i = 1; i < C.size(); i++)
     {
         printf("%s %i", " ", C[i]);
     }
 
+    printf(" }");
+    system("pause");
 }
 

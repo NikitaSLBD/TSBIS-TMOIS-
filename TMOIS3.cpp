@@ -1,4 +1,4 @@
-﻿// Подключаем библиотеки
+// Подключаем библиотеки
 #include <vector>
 #include <windows.h>
 #include <utility>
@@ -22,8 +22,8 @@ void main() // Главная функция
     // Цикл для записи графика А
     for (int i = 0; i < m_A; i++)
     {
-            printf("%s %i %s", "Введите ", i + 1, "кортеж графика A: "); // Вывод инструкции для пользователя
-            scanf_s("%i %i", &A[i].first, &A[i].second); // Заносим ввод пользователя в переменную B[j]
+        printf("%s %i %s", "Введите ", i + 1, "кортеж графика A: "); // Вывод инструкции для пользователя
+        scanf_s("%i %i", &A[i].first, &A[i].second); // Заносим ввод пользователя в переменную B[j]
     }
 
     printf("Введите мощность графика В: "); // Вывод инструкции для пользователя
@@ -34,8 +34,8 @@ void main() // Главная функция
     // Цикл для записи множества В
     for (int j = 0; j < m_B; j++)
     {
-            printf("%s %i %s", "Введите ", j + 1, "кортеж графика В: "); // Вывод инструкции для пользователя
-            scanf_s("%i %i", &B[j].first, &B[j].second); // Заносим ввод пользователя в переменную B[j]
+        printf("%s %i %s", "Введите ", j + 1, "кортеж графика В: "); // Вывод инструкции для пользователя
+        scanf_s("%i %i", &B[j].first, &B[j].second); // Заносим ввод пользователя в переменную B[j]
     }
 
     vector <pair <int, int>> C; // Декларация графика С
@@ -47,6 +47,8 @@ void main() // Главная функция
     printf("3) Разность\n");
     printf("4) Симметрическая разность\n");
     printf("5) Дополнение\n");
+    printf("6) Инверсия\n");
+    printf("7) Композиция\n");
     scanf_s("%i", &par1); // Заносим ввод пользователя в переменную
 
     // Проверка значения переменной 
@@ -161,15 +163,14 @@ void main() // Главная функция
         int u = 0;
 
         // Цикл для обработки элементов универсального графика
-        for (int p = 1; p < 100; p++)
+        for (int p = 1; p <= 100; p++)
         {
-            for (int q = 1; q < 100; q++)
+            for (int q = 1; q <= 100; q++, u++)
             {
                 U[u].first = p;
                 U[u].second = q;
-                u++;
             }
-            
+
         }
 
         for (int p = 0; p < U.size(); p++)
@@ -186,7 +187,45 @@ void main() // Главная функция
             }
         }
         break; // Выходим из блока switch
-    } 
+    }
+
+    case 6:
+    {
+        // Вывод меню выбора и нструкции для пользователя
+        printf("\n1) А^-1");
+        printf("\n2) В^-1\n");
+        printf("Выберите график над которым будет происходить операция (1 или 2): ");
+        scanf_s("%i", &ord); // Заносим ввод пользователя в переменную
+
+        if (ord == 1)
+            for (int j = 0; j < m_A; j++)
+                C.push_back(make_pair(A[j].second, A[j].first));
+        else
+            for (int i = 0; i < m_B; i++)
+                C.push_back(make_pair(B[i].second, B[i].first));
+    }
+
+    case 7:
+    {
+        // Вывод меню выбора и нструкции для пользователя
+        printf("\n1) А*B");
+        printf("\n2) B*A\n");
+        printf("Выберите график над которым будет происходить операция (1 или 2): ");
+        scanf_s("%i", &ord); // Заносим ввод пользователя в переменную
+
+        if (ord == 1)
+            for (int j = 0; j < m_A; j++)
+                for (int i = 0; i < m_B; i++)
+                    if (A[j].second == B[i].first && count(C.begin(), C.end(), make_pair(A[j].first, B[i].second)) == 0)
+                        C.push_back(make_pair(A[j].first, B[i].second));
+        else
+            for (int i = 0; i < m_B; i++)
+                for (int j = 0; j < m_A; j++)
+                    if (B[i].second == A[j].first && count(C.begin(), C.end(), make_pair(B[i].first, A[j].second)) == 0)
+                        C.push_back(make_pair(B[i].first, A[j].second));
+
+        
+    }
 
     }
 
